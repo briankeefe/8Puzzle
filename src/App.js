@@ -1,12 +1,14 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
+import { Box, Typography } from "@material-ui/core"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-    </div>
+    <Box className="App">
+      <Typography>
+        Test
+      </Typography>
+    </Box>
   );
 }
 
