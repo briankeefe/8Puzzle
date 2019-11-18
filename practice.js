@@ -1,5 +1,17 @@
 //'normal array'
-const tilesOutOfPlace = require('./tilesOutOfPlace');
+//const tilesOutOfPlace = require('./tilesOutOfPlace');
+const tilesOutOfPlace = (n) => {
+    const arr = [[1, 2, 3], [4, 5, 6], [7, 8, 0]];
+    let count = 0;
+    for (let i = 0; i < 3; ++i){
+        for (let j = 0; j < 3; ++j){
+            if (n[i][j] !== arr[i][j] && arr[i][j] !== 0) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
 
 class Coordinate {
     constructor(x, y) {
@@ -11,7 +23,7 @@ class Coordinate {
 class State {
     constructor(n) {
         this.board = n;
-        this.star = tilesOutOfPlace.calc(this.board)
+        this.star = tilesOutOfPlace(this.board)
     }
 }
 
@@ -51,7 +63,7 @@ const children = (n, d) => {
     
     let swap = []
     let options = [up, down, left, right]
-    for (opt of options) {
+    for (let opt of options) {
         if (opt.x >= 0) {
             if (opt.x <= 2) {
                 if (opt.y >= 0) {
@@ -63,9 +75,9 @@ const children = (n, d) => {
         }
     }
     let actual = []
-    for (test of swap) {
+    for (let iter of swap) {
         const newArray = n.map(a => ({...a}));
-        let cur = swapTile(newArray, test.x, test.y)
+        let cur = swapTile(newArray, iter.x, iter.y)
         actual.push(new State(cur))
     }
     return actual
@@ -88,7 +100,7 @@ const goal = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
 const visited = []
 
 const valid = (n) => {
-    for (v of visited) {
+    for (let v of visited) {
         if (n === v) {
             return false;
         }
@@ -105,13 +117,14 @@ const runner = () => {
         })
         let next = queue.pop();
         let board = next.board;
+        printer(board);
         console.log(next.star)
-        if (next.star == 0) {
+        if (next.star === 0) {
             console.log("END")
             break;
         }
         if (valid(board)) {
-            for (chil of children(board)) {
+            for (let chil of children(board)) {
                 if (valid(chil.board)) {
                     queue.push(chil)
                 }
